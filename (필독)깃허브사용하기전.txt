@@ -1,0 +1,12 @@
+깃허브 fork쓰기전 중요사항
+
+1. 남의폴더에 허락없이 만치지않기
+2. 파일업로드순서
+Local Changes -> 필요한것만Stage -> Commit Subject(양식예시 [LJH]Player Make_2022_06_10)
+-> Commit and Push
+
+<중요사항>
+Unity같은경우 가끔가다 용량초과있는데 Library이게 Stage되서그럼 이거 삭제하고 올리면 괜찮아지더라
+
+3. Pull받을때 제발 Fetch눌러서 최신화시키고 다운받기
+4. 똑같이 Push할때도 Fetch눌러서 최신화시키고 Pull로 최신화된파일 만들고 Push로 업로드하기
