@@ -174,11 +174,11 @@ Material:
     - _utsTechnique: 0
     - _utsVersion: 2.08
     m_Colors:
-    - _1st_ShadeColor: {r: 0.6037736, g: 0.51548594, b: 0.51548594, a: 1}
-    - _2nd_ShadeColor: {r: 0.1509434, g: 0.0747597, b: 0.0747597, a: 1}
+    - _1st_ShadeColor: {r: 0.6320754, g: 0.3774191, b: 0.28324133, a: 1}
+    - _2nd_ShadeColor: {r: 0.3490566, g: 0.19547443, b: 0.18934675, a: 1}
     - _Ap_RimLightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 0.7688679, g: 1, b: 0.8030166, a: 1}
-    - _Color: {r: 0.7688679, g: 1, b: 0.8030166, a: 1}
+    - _BaseColor: {r: 0.8679245, g: 0.6998585, b: 0.42168033, a: 1}
+    - _Color: {r: 0.8679245, g: 0.6998585, b: 0.42168033, a: 1}
     - _ColorShift: {r: 0, g: 0, b: 0, a: 1}
     - _Emissive_Color: {r: 0, g: 0, b: 0, a: 1}
     - _HighColor: {r: 0, g: 0, b: 0, a: 1}
