@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ball_up : MonoBehaviour
+public class Ball_left : MonoBehaviour
 {
     public bool _isCollisionEnter;
 
