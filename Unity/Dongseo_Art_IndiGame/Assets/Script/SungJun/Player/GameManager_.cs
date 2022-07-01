@@ -28,7 +28,7 @@ public class GameManager_ : MonoBehaviour
     GameObject Ball_left;
     GameObject Ball_right;
 
-    
+    GameObject FollowObject;
 
     void Start()
     {
@@ -42,6 +42,7 @@ public class GameManager_ : MonoBehaviour
         Ball_down = GameObject.Find("Ball_down");
         Ball_left = GameObject.Find("Ball_left");
         Ball_right = GameObject.Find("Ball_right");
+        FollowObject = GameObject.Find("FollowObject");
 
         _upCount = 0;
         _downCount = 0;
@@ -57,12 +58,14 @@ public class GameManager_ : MonoBehaviour
             {
                 _xPosition -= 0.5f;
             }
+            FollowObject.GetComponent<FollowObjectController>().TouchMove_(true);
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
             transform.position = new Vector3(transform.position.x + _horizontalMove * Time.deltaTime, transform.position.y, transform.position.z);
             if (_collisionRight)
                 _xPosition += 0.5f;
+            FollowObject.GetComponent<FollowObjectController>().TouchMove_(false);
         }
 
 
