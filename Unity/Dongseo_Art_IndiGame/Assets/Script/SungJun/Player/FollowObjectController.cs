@@ -10,14 +10,16 @@ public class FollowObjectController : MonoBehaviour
     void Start()
     {
         Ball = transform.parent;
-        FlyObject = transform.Find("FlyObject").transform;
     }
 
     void FixedUpdate()
     {
-        FlyObject.position = new Vector3(Mathf.Lerp(FlyObject.position.x, transform.position.x, 0.1f), 
-                                         Mathf.Lerp(FlyObject.position.y, transform.position.y, 0.3f), 
-                                         Mathf.Lerp(FlyObject.position.z, transform.position.z, 0.05f));
+        //FlyObject.position = new Vector3(Mathf.Lerp(FlyObject.position.x, transform.position.x, 0.1f), 
+        //                                 Mathf.Lerp(FlyObject.position.y, transform.position.y, 0.3f), 
+        //                                 Mathf.Lerp(FlyObject.position.z, transform.position.z, 0.05f));
+        FlyObject.position = new Vector3(Mathf.Lerp(FlyObject.position.x, transform.position.x, 0.1f),
+                                 6f,
+                                 Mathf.Lerp(FlyObject.position.z, transform.position.z, 0.05f));
     }
 
     public void TouchMove_(bool onLeft)
