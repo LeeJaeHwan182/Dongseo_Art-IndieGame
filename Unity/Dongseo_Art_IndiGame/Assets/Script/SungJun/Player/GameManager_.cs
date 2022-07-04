@@ -46,36 +46,50 @@ public class GameManager_ : MonoBehaviour
 
         _upCount = 0;
         _downCount = 0;
-        _horizontalMove = 3f;
+        _horizontalMove = 0f;
     }
 
     void FixedUpdate()
     {
+        transform.position = new Vector3(transform.position.x + _horizontalMove * Time.deltaTime, transform.position.y, transform.position.z);
+
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.position = new Vector3(transform.position.x - _horizontalMove * Time.deltaTime, transform.position.y, transform.position.z);
+            if (_horizontalMove > -5)//최대속도
+                _horizontalMove -= 0.2f;//가속도
+
             if (_collisionLeft)
             {
                 _xPosition -= 0.5f;
             }
             FollowObject.GetComponent<FollowObjectController>().TouchMove_(true);
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.RightArrow))
         {
-            transform.position = new Vector3(transform.position.x + _horizontalMove * Time.deltaTime, transform.position.y, transform.position.z);
+            if (_horizontalMove < 5)//최대속도
+                _horizontalMove += 0.2f;//가속도
+
             if (_collisionRight)
                 _xPosition += 0.5f;
             FollowObject.GetComponent<FollowObjectController>().TouchMove_(false);
         }
 
+        else//멈춰있을 때 줄어드는 속도
+        {
+            if (_horizontalMove < 0.1f && _horizontalMove > -0.1f)
+                _horizontalMove = 0f;
 
+            else if (_horizontalMove < 0.1f)
+                _horizontalMove += 0.2f;
+            else
+                _horizontalMove -= 0.2f;
+        }
 
 
 
         if (Ball_down.GetComponent<Ball_down>()._isCollisionEnter)
         {
             _isDown = false;
-            _horizontalMove = 3f;
         }
         else if (Ball_up.GetComponent<Ball_up>()._isCollisionEnter)
         {
