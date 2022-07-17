@@ -8,17 +8,9 @@ public class Ball_down : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "Finish")
+        if (collision.collider.tag == "Finish" && !_isCollisionEnter)
         {
             _isCollisionEnter = true;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.collider.tag == "Finish")
-        {
-            _isCollisionEnter = false;
         }
     }
 }

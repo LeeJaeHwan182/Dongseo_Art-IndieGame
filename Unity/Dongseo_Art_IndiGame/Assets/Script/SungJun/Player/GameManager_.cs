@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GameManager_ : MonoBehaviour
 {
-    public bool isGround;
     public float high;
     public Rigidbody rd;
     public float force;
@@ -33,7 +32,7 @@ public class GameManager_ : MonoBehaviour
     GameObject Ball_left;
     GameObject Ball_right;
 
-    GameObject FollowObject;
+    //GameObject FollowObject;
 
     void Start()
     {
@@ -47,13 +46,13 @@ public class GameManager_ : MonoBehaviour
         Ball_down = GameObject.Find("Ball_down");
         Ball_left = GameObject.Find("Ball_left");
         Ball_right = GameObject.Find("Ball_right");
-        FollowObject = GameObject.Find("FollowObject");
+        //FollowObject = GameObject.Find("FollowObject");
 
         _upCount = 0;
         _downCount = 0;
         _horizontalMove = 0f;
 
-        isGround = false;
+
         rd = gameObject.GetComponent<Rigidbody>();
     }
 
@@ -61,25 +60,19 @@ public class GameManager_ : MonoBehaviour
     {
         transform.position = new Vector3(transform.position.x + _horizontalMove * Time.deltaTime, transform.position.y, transform.position.z);
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) && !_collisionLeft)
         {
-            if (_horizontalMove > -5)//최대속도
-                _horizontalMove -= 0.2f;//가속도
+            if (_horizontalMove > -8)//최대속도
+                _horizontalMove -= 0.3f;//가속도
 
-            if (_collisionLeft)
-            {
-                _xPosition -= 0.5f;
-            }
-            FollowObject.GetComponent<FollowObjectController>().TouchMove_(true);
+            //FollowObject.GetComponent<FollowObjectController>().TouchMove_(true);
         }
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.RightArrow) && !_collisionRight)
         {
-            if (_horizontalMove < 5)//최대속도
-                _horizontalMove += 0.2f;//가속도
+            if (_horizontalMove < 8)//최대속도
+                _horizontalMove += 0.3f;//가속도
 
-            if (_collisionRight)
-                _xPosition += 0.5f;
-            FollowObject.GetComponent<FollowObjectController>().TouchMove_(false);
+            //FollowObject.GetComponent<FollowObjectController>().TouchMove_(false);
         }
 
         else//멈춰있을 때 줄어드는 속도
@@ -92,86 +85,89 @@ public class GameManager_ : MonoBehaviour
             else
                 _horizontalMove -= 0.2f;
         }
+
+
+        if (Ball_down.GetComponent<Ball_down>()._isCollisionEnter)
+        {
+            rd.AddForce(transform.up * force, ForceMode.Impulse);
+            //_isDown = false;
+            Ball_down.GetComponent<Ball_down>()._isCollisionEnter = false;
+        }
+        else if (Ball_up.GetComponent<Ball_up>()._isCollisionEnter)
+        {
+            //_isDown = true;
+            //Reset_2();
+        }
+        else if (Ball_left.GetComponent<Ball_left>()._isCollisionEnter && !_collisionLeft)
+        {
+            _horizontalMove = -1f;
+            _collisionLeft = true;
+            _xPosition = transform.position.x + 1;
+            Debug.Log("왼쪽 충돌");
+        }
+        else if (Ball_right.GetComponent<Ball_right>()._isCollisionEnter && !_collisionRight)
+        {
+            _horizontalMove = 1f;
+            _collisionRight = true;
+            _xPosition = transform.position.x - 1;
+            Debug.Log("오른쪽 충돌");
+        }
+
+
+
+
+
+        //공이 위 아래로 움직일 때
+        //if (_isDown)
+        //{
+        //    transform.position = new Vector3(transform.position.x, transform.position.y - _minY, transform.position.z);
+        //    _minY += _plusY;
+
+        //    if (_downCount <= 50)
+        //        _downCount += 1;
+
+        //    _plusY = _downCount * 0.002f;
+        //    _upPositionY = transform.position.y + 5f;
+        //}
+        //else
+        //{
+        //    transform.position = new Vector3(transform.position.x, Mathf.Lerp(transform.position.y, _upPositionY, 0.1f), transform.position.z);
+
+        //    if (_upCount <= 50)
+        //        _upCount += 1;
+
+        //    if (transform.position.y >= _upPositionY - 0.28f)
+        //    {
+        //        _isDown = true;
+        //        Reset_();
+        //    }
+        //}
+
+
+        //벽 옆면 부딪힐 때
+
+        if (_collisionLeft)
+        {
+            transform.position = new Vector3(Mathf.Lerp(transform.position.x, _xPosition, 0.1f), transform.position.y, transform.position.z);
+
+            _horizontalMove = 6;
+            if (transform.position.x > _xPosition - 0.2f)
+            {
+                _collisionLeft = false;
+            }
+        }
+
+        else if (_collisionRight)
+        {
+            transform.position = new Vector3(Mathf.Lerp(transform.position.x, _xPosition, 0.1f), transform.position.y, transform.position.z);
+
+            _horizontalMove = -6;
+            if (transform.position.x < _xPosition + 0.2f)
+            {
+                _collisionRight = false;
+            }
+        }
     }
-    void OnCollisionEnter(Collision collision)
-    {
-        rd.AddForce(transform.up * force, ForceMode.Impulse);
-        isGround = false;
-    }
-}
-
-
-    //    if (Ball_down.GetComponent<Ball_down>()._isCollisionEnter)
-    //    {
-    //        _isDown = false;
-    //    }
-    //    else if (Ball_up.GetComponent<Ball_up>()._isCollisionEnter)
-    //    {
-    //        _isDown = true;
-    //        Reset_2();
-    //    }
-    //    else if (Ball_left.GetComponent<Ball_left>()._isCollisionEnter && !_collisionLeft)
-    //    {
-    //        _horizontalMove = -1f;
-    //        _collisionLeft = true;
-    //        _xPosition = transform.position.x + 2;
-    //        Debug.Log("왼쪽 충돌");
-    //    }
-    //    else if (Ball_right.GetComponent<Ball_right>()._isCollisionEnter && !_collisionRight)
-    //    {
-    //        _horizontalMove = 1f;
-    //        _collisionRight = true;
-    //        _xPosition = transform.position.x - 2;
-    //        Debug.Log("오른쪽 충돌");
-    //    }
-
-
-
-
-
-    //    //공이 위 아래로 움직일 때
-    //    if (_isDown)
-    //    {
-    //        transform.position = new Vector3(transform.position.x, transform.position.y - _minY, transform.position.z);
-    //        _minY += _plusY;
-
-    //        if (_downCount <= 50)
-    //            _downCount += 1;
-
-    //        _plusY = _downCount * 0.002f;
-    //        _upPositionY = transform.position.y + 5f;
-    //    }
-    //    else
-    //    {
-    //        transform.position = new Vector3(transform.position.x, Mathf.Lerp(transform.position.y, _upPositionY, 0.1f), transform.position.z);
-
-    //        if (_upCount <= 50)
-    //            _upCount += 1;
-
-    //        if (transform.position.y >= _upPositionY - 0.28f)
-    //        {
-    //            _isDown = true;
-    //            Reset_();
-    //        }
-    //    }
-    //    //벽 옆면 부딪힐 때
-
-    //    if (_collisionLeft)
-    //    {
-    //        transform.position = new Vector3(Mathf.Lerp(transform.position.x, _xPosition, 0.1f), transform.position.y, transform.position.z);
-
-    //        if (transform.position.x > _xPosition - 0.2f)
-    //            _collisionLeft = false;
-    //    }
-
-    //    else if (_collisionRight)
-    //    {
-    //        transform.position = new Vector3(Mathf.Lerp(transform.position.x, _xPosition, 0.1f), transform.position.y, transform.position.z);
-
-    //        if (transform.position.x < _xPosition + 0.2f)
-    //            _collisionRight = false;
-    //    }
-    //}
 
 
 
@@ -196,6 +192,6 @@ public class GameManager_ : MonoBehaviour
     //        _minY = _minY * -1;
 
     //    _minY = _minY / 5;
-            
+
     //}
-//}
+}
